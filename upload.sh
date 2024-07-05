@@ -17,7 +17,7 @@ replace_copyright_in_file() {
 export -f replace_copyright_in_file
 export NEW_COPYRIGHT
 
-# Find all files and apply the replacement function
-find . -type f -exec bash -c 'replace_copyright_in_file "$0"' {} \;
+# Find all files excluding .git directory and apply the replacement function
+find . -type f -not -path "./.git/*" -exec bash -c 'replace_copyright_in_file "$0"' {} \;
 
 echo "Copyright update completed."
