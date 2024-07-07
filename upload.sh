@@ -1,23 +1,33 @@
 #!/bin/bash
 
-# Define the new copyright text
-NEW_COPYRIGHT="#\n# Copyright (C) 2024 The LineageOS Project\n#\n# SPDX-License-Identifier: Apache-2.0\n#"
+# Variables
+start_date="2024-06-22"
+increment_days=0
+commit_count=0
 
-# Function to replace the copyright block in a file
-replace_copyright_in_file() {
-    local file_path="$1"
-    
-    # Use sed to replace the copyright block
-    sed -i '/\/\/ Copyright (C) .* The LineageOS Project/,/limitations under the License\./d' "$file_path"
-    sed -i "1i $NEW_COPYRIGHT" "$file_path"
-    echo "Updated copyright in: $file_path"
+# Function to increment the date
+increment_date() {
+  local date="$1"
+  local increment="$2"
+  echo $(date -I -d "$date + $increment days")
 }
 
-# Export the function to use it with find
-export -f replace_copyright_in_file
-export NEW_COPYRIGHT
+# Get the list of commits to cherry-pick
+commits=$(git rev-list --reverse 9ce085c^..67220d2)
 
-# Find all files excluding .git directory and apply the replacement function
-find . -type f -not -path "./.git/*" -exec bash -c 'replace_copyright_in_file "$0"' {} \;
+# Loop through the commits and cherry-pick them
+for commit in $commits; do
+  # Calculate the current committer date
+  current_date=$(increment_date "$start_date" "$increment_days")
 
-echo "Copyright update completed."
+  # Cherry-pick the commit with the current committer date
+  GIT_COMMITTER_DATE="${current_date}T00:00:00" git cherry-pick "$commit"
+
+  # Increment the commit count
+  commit_count=$((commit_count + 1))
+
+  # Check if we need to update the date (every 7 Commits)
+  if (( commit_count % 7 == 0 )); then
+    increment_days=$((increment_days + 1))
+  fi
+done
