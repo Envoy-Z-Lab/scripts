@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-start_date="2024-06-22"
+start_date="2024-06-14"
 increment_days=0
 commit_count=0
 
