@@ -30,7 +30,9 @@ setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}"
 # Warning headers and guards
 write_headers
 
-write_makefiles "${MY_DIR}/proprietary-files.txt" true
+# Use proprietary-files.txt from sdm660-common
+COMMON_DIR="${MY_DIR}/../../${VENDOR}/sdm660-common"
+write_makefiles "${COMMON_DIR}/proprietary-files.txt" true
 
 # Finish
 write_footers
