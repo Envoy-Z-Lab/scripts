@@ -1,48 +1,27 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
-# Script to upload files to GitHub
+# Copyright (C) 2017-2019 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 
-# Prompt the user to input the path to the ROM ZIP file
-read -p "Please enter the path to the ROM ZIP: " ROM_ZIP_PATH
+set -e
 
-# Prompt the user to input the release/tag name
-read -p "Please enter the release/tag name: " TAG
+# Required!
+export DEVICE=lavender
+export DEVICE_COMMON=sdm660-common
+export VENDOR=xiaomi
 
-# Prompt the user to input the device name
-read -p "Please enter the device name: " DEVICE
+export DEVICE_BRINGUP_YEAR=2019
 
-# Define the paths to the files that need to be uploaded
-FILES=(
-    "out/target/product/$DEVICE/boot.img"
-    "out/target/product/$DEVICE/dtbo.img"
-    "out/target/product/$DEVICE/super_empty.img"
-    "out/target/product/$DEVICE/vbmeta.img"
-    "$ROM_ZIP_PATH"
-)
-
-# GitHub repository information
-GH="https://github.com/Envoy-Z-Lab/Releases"
-
-# Function to upload a file to GitHub
-upload_file() {
-    local FP=$1
-    echo -e "Uploading $FP to GitHub..."
-    
-    # Check if release exists
-    if ! gh release view $TAG --repo $GH > /dev/null 2>&1; then
-        gh release create $TAG --generate-notes --repo $GH
-    fi
-    
-    # Upload the file
-    gh release upload --clobber $TAG $FP --repo $GH
-}
-
-# Iterate over each file in the FILES array and upload it
-for file in "${FILES[@]}"; do
-    if [ -f "$file" ]; then
-        upload_file "$file"
-    else
-        echo "File $file does not exist, skipping..."
-    fi
-done
+"./../../${VENDOR}/${DEVICE_COMMON}/setup-makefiles.sh" "$@"
