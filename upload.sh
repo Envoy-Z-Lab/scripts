@@ -1,35 +1,17 @@
 #!/bin/bash
 
-set -e
+# Define the file paths
+HEADER_FILE="lavdt/camera/QCamera2/HAL/QCamera2HWI.h"
+CPP_FILE="lavdt/camera/QCamera2/HAL/QCamera2HWI.cpp"
 
-DEVICE=lavender
-VENDOR=xiaomi
+# Fix in the header file
+sed -i 's/CAMERA_META_DATA_ASD/QCAMERA_METADATA_ASD/g' "$HEADER_FILE"
+sed -i 's/CAMERA_META_DATA_FD/QCAMERA_METADATA_FD/g' "$HEADER_FILE"
 
-# Load extract_utils and do some sanity checks
-MY_DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
+# Fix in the cpp file
+sed -i 's/CAMERA_MSG_META_DATA/QCAMERA_MSG_META_DATA/g' "$CPP_FILE"
+sed -i 's/CAMERA_CMD_LONGSHOT_OFF/QCAMERA_CMD_LONGSHOT_OFF/g' "$CPP_FILE"
+sed -i 's/CAMERA_CMD_HISTOGRAM_OFF/QCAMERA_CMD_HISTOGRAM_OFF/g' "$CPP_FILE"
+sed -i 's/CAMERA_META_DATA_FD/QCAMERA_METADATA_FD/g' "$CPP_FILE"
 
-# Define the path to the helper script
-HELPER="/home/zaid/tmp/tmp/tools/extract-utils/extract_utils.sh"
-if [ ! -f "${HELPER}" ]; then
-    echo "Unable to find helper script at ${HELPER}"
-    exit 1
-fi
-source "${HELPER}"
-
-# Initialize the helper
-setup_vendor "${DEVICE}" "${VENDOR}" "${MY_DIR}"
-
-# Warning headers and guards
-write_headers
-
-# Use proprietary-files.txt from sdm660-common
-COMMON_DIR="${MY_DIR}/device/xiaomi/sdm660-common"
-if [ ! -f "${COMMON_DIR}/proprietary-files.txt" ]; then
-    echo "Unable to find proprietary-files.txt at ${COMMON_DIR}/proprietary-files.txt"
-    exit 1
-fi
-write_makefiles "${COMMON_DIR}/proprietary-files.txt" true
-
-# Finish
-write_footers
+echo "Fixes applied successfully."
