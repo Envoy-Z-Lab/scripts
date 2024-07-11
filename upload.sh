@@ -1,10 +1,4 @@
 #!/bin/bash
-#
-# Copyright (C) 2016 The CyanogenMod Project
-# Copyright (C) 2017-2021 The LineageOS Project
-#
-# SPDX-License-Identifier: Apache-2.0
-#
 
 set -e
 
@@ -15,14 +9,8 @@ VENDOR=xiaomi
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
-# Set ANDROID_ROOT to a writable directory in Termux home
-ANDROID_ROOT="${HOME}/android_root"
-
-# Create the android_root directory if it doesn't exist
-mkdir -p "${ANDROID_ROOT}"
-
 # Define the path to the helper script
-HELPER="${HOME}/storage/shared/tmp/tools/extract-utils/extract_utils.sh"
+HELPER="./tools/extract-utils/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
     echo "Unable to find helper script at ${HELPER}"
     exit 1
@@ -30,7 +18,7 @@ fi
 source "${HELPER}"
 
 # Initialize the helper
-setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}"
+setup_vendor "${DEVICE}" "${VENDOR}" "${MY_DIR}"
 
 # Warning headers and guards
 write_headers
