@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define the file paths
-HEADER_FILE="lavdt/camera/QCamera2/HAL/QCamera2HWI.h"
-CPP_FILE="lavdt/camera/QCamera2/HAL/QCamera2HWI.cpp"
+HEADER_FILE="camera/QCamera2/HAL/QCamera2HWI.h"
+CPP_FILE="camera/QCamera2/HAL/QCamera2HWI.cpp"
 
 # Fix in the header file
 sed -i 's/CAMERA_META_DATA_ASD/QCAMERA_METADATA_ASD/g' "$HEADER_FILE"
