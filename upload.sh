@@ -15,10 +15,14 @@ VENDOR=xiaomi
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
-ANDROID_ROOT="${MY_DIR}/../../.."
+# Set ANDROID_ROOT to a writable directory in Termux home
+ANDROID_ROOT="${HOME}/android_root"
+
+# Create the android_root directory if it doesn't exist
+mkdir -p "${ANDROID_ROOT}"
 
 # Define the path to the helper script
-HELPER="./tools/extract-utils/extract_utils.sh"
+HELPER="${HOME}/storage/shared/tmp/tools/extract-utils/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
     echo "Unable to find helper script at ${HELPER}"
     exit 1
