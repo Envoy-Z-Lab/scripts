@@ -10,7 +10,7 @@ MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
 # Define the path to the helper script
-HELPER="./tools/extract-utils/extract_utils.sh"
+HELPER="/home/zaid/tmp/tmp/tools/extract-utils/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
     echo "Unable to find helper script at ${HELPER}"
     exit 1
