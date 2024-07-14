@@ -1,35 +1,27 @@
 #!/bin/bash
+#
+# Copyright (C) 2017-2019 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 set -e
 
-DEVICE=lavender
-VENDOR=xiaomi
+# Required!
+export DEVICE=lavender
+export DEVICE_COMMON=sdm660-common
+export VENDOR=xiaomi
 
-# Load extract_utils and do some sanity checks
-MY_DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
+export DEVICE_BRINGUP_YEAR=2019
 
-# Define the path to the helper script
-HELPER="/home/zaid/tmp/tmp/tools/extract-utils/extract_utils.sh"
-if [ ! -f "${HELPER}" ]; then
-    echo "Unable to find helper script at ${HELPER}"
-    exit 1
-fi
-source "${HELPER}"
-
-# Initialize the helper
-setup_vendor "${DEVICE}" "${VENDOR}" "${MY_DIR}"
-
-# Warning headers and guards
-write_headers
-
-# Use proprietary-files.txt from sdm660-common
-COMMON_DIR="${MY_DIR}/device/xiaomi/sdm660-common"
-if [ ! -f "${COMMON_DIR}/proprietary-files.txt" ]; then
-    echo "Unable to find proprietary-files.txt at ${COMMON_DIR}/proprietary-files.txt"
-    exit 1
-fi
-write_makefiles "${COMMON_DIR}/proprietary-files.txt" true
-
-# Finish
-write_footers
+"./../../${VENDOR}/${DEVICE_COMMON}/setup-makefiles.sh" "$@"
