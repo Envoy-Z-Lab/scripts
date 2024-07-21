@@ -13,7 +13,7 @@ increment_date() {
 }
 
 # Get the list of commits to cherry-pick
-commits=$(git rev-list --reverse 9ce085c^..67220d2)
+commits=$(git rev-list --reverse 59af5cb^..ed1059e)
 
 # Loop through the commits and cherry-pick them
 for commit in $commits; do
