@@ -13,7 +13,7 @@ increment_date() {
 }
 
 # Get the list of commits to cherry-pick
-commits=$(git rev-list --reverse 59af5cb^..ed1059e)
+commits=$(git rev-list --reverse 09edce5^..4b2d7ff)
 
 # Loop through the commits and cherry-pick them
 for commit in $commits; do
@@ -26,7 +26,7 @@ for commit in $commits; do
   # Increment the commit count
   commit_count=$((commit_count + 1))
 
-  # Check if we need to update the date (every 7 Commits)
+  # Check if we need to update the date (every 7 commits)
   if (( commit_count % 7 == 0 )); then
     increment_days=$((increment_days + 1))
   fi
