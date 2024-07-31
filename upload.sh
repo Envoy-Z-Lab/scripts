@@ -1,8 +1,8 @@
 #!/bin/sh
 
-OLD_NAME="vhmit"
-OLD_EMAIL="viktor.9630@protonmail.com"
-NEW_NAME="vhmit"
+OLD_NAME="Vhmit"
+OLD_EMAIL="viktor.9630@hotmail.com"
+NEW_NAME="Vhmit"
 NEW_EMAIL="viktor.9630@protonmail.com"
 
 git filter-repo --force --commit-callback '
