@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-start_date="2024-06-14"
+start_date="2024-07-14"
 increment_days=0
 commit_count=0
 
@@ -13,7 +13,7 @@ increment_date() {
 }
 
 # Get the list of commits to cherry-pick
-commits=$(git rev-list --reverse 09edce5^..4b2d7ff)
+commits=$(git rev-list --reverse 43d927ab^..2012eb77)
 
 # Loop through the commits and cherry-pick them
 for commit in $commits; do
@@ -27,7 +27,7 @@ for commit in $commits; do
   commit_count=$((commit_count + 1))
 
   # Check if we need to update the date (every 7 commits)
-  if (( commit_count % 7 == 0 )); then
+  if (( commit_count % 4 == 0 )); then
     increment_days=$((increment_days + 1))
   fi
 done
